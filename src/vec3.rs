@@ -71,5 +71,6 @@ impl ops::DivAssign<f64> for Vec3 {
     }
 }
 
-type Point3 = Vec3;
-type Color = Vec3;
+// Type aliases for Vec3
+type Point3 = Vec3;     // 3D point
+type Color = Vec3;      // RGB color
