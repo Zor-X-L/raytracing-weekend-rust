@@ -1,4 +1,6 @@
 use std::ops;
+use std::fmt;
+use std::fmt::Formatter;
 
 pub struct Vec3 {
     pub e: [f64; 3]
@@ -74,3 +76,11 @@ impl ops::DivAssign<f64> for Vec3 {
 // Type aliases for Vec3
 type Point3 = Vec3;     // 3D point
 type Color = Vec3;      // RGB color
+
+// Vec3 Utility Functions
+
+impl fmt::Display for Vec3 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        write!(f, "{} {} {}", self.e[0], self.e[1], self.e[2])
+    }
+}
