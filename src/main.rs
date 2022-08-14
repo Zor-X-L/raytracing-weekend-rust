@@ -1,3 +1,5 @@
+use crate::vec3::{Color, write_color};
+
 mod vec3;
 
 fn main() {
@@ -14,15 +16,12 @@ fn main() {
     for j in (0..image_height).rev() {
         eprint!("\rScanlines remaining: {} ", j);
         for i in 0..image_width {
-            let r = i as f64 / (image_width - 1) as f64;
-            let g = j as f64 / (image_height - 1) as f64;
-            let b = 0.25;
-
-            let ir = (255.999 * r) as u8;
-            let ig = (255.999 * g) as u8;
-            let ib = (255.999 * b) as u8;
-
-            print!("{} {} {}\n", ir, ig, ib);
+            let pixel_color = Color::new(
+                i as f64 / (image_width - 1) as f64,
+                j as f64 / (image_height - 1) as f64,
+                0.25,
+            );
+            write_color(&mut std::io::stdout(), &pixel_color).expect("Error");
         }
     }
 
