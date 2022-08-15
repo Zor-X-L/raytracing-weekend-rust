@@ -1,6 +1,7 @@
-use crate::vec3::{Color, write_color};
+use crate::color::{Color, write_color};
 
 mod vec3;
+mod color;
 
 fn main() {
 

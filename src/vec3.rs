@@ -1,7 +1,6 @@
-use std::{io, ops};
+use std::ops;
 use std::fmt;
 use std::fmt::Formatter;
-use std::io::Write;
 
 pub struct Vec3 {
     pub e: [f64; 3],
@@ -78,8 +77,6 @@ impl ops::DivAssign<f64> for Vec3 {
 
 // 3D point
 pub type Point3 = Vec3;
-// RGB color
-pub type Color = Vec3;
 
 // Vec3 Utility Functions
 
@@ -137,11 +134,11 @@ impl ops::Div<f64> for &Vec3 {
     }
 }
 
-fn dot(u: &Vec3, v: &Vec3) -> f64 {
+pub fn dot(u: &Vec3, v: &Vec3) -> f64 {
     u.e[0] * v.e[0] + u.e[1] * v.e[1] + u.e[2] * v.e[2]
 }
 
-fn cross(u: &Vec3, v: &Vec3) -> Vec3 {
+pub fn cross(u: &Vec3, v: &Vec3) -> Vec3 {
     Vec3::new(
         u.e[1] * v.e[2] - u.e[2] * v.e[1],
         u.e[2] * v.e[0] - u.e[0] * v.e[2],
@@ -149,15 +146,6 @@ fn cross(u: &Vec3, v: &Vec3) -> Vec3 {
     )
 }
 
-fn unit_vector(v: &Vec3) -> Vec3 {
+pub fn unit_vector(v: &Vec3) -> Vec3 {
     v / v.length()
-}
-
-pub fn write_color(write: &mut impl Write, pixel_color: &Color) -> io::Result<()> {
-    write!(write, "{} {} {}\n",
-           (255.999 * pixel_color.x()) as u8,
-           (255.999 * pixel_color.x()) as u8,
-           (255.999 * pixel_color.x()) as u8
-    )?;
-    Ok(())
 }
