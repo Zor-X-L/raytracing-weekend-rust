@@ -30,7 +30,7 @@ impl Vec3 {
     }
 }
 
-impl ops::Neg for &Vec3 {
+impl ops::Neg for Vec3 {
     type Output = Vec3;
 
     fn neg(self) -> Self::Output {
@@ -52,8 +52,8 @@ impl ops::IndexMut<usize> for Vec3 {
     }
 }
 
-impl ops::AddAssign<&Vec3> for Vec3 {
-    fn add_assign(&mut self, rhs: &Vec3) {
+impl ops::AddAssign<Vec3> for Vec3 {
+    fn add_assign(&mut self, rhs: Vec3) {
         self.e[0] += rhs.e[0];
         self.e[1] += rhs.e[1];
         self.e[2] += rhs.e[2];
@@ -89,39 +89,39 @@ impl fmt::Display for Vec3 {
     }
 }
 
-impl ops::Add<&Vec3> for &Vec3 {
+impl ops::Add<Vec3> for Vec3 {
     type Output = Vec3;
 
-    fn add(self, rhs: &Vec3) -> Self::Output {
+    fn add(self, rhs: Vec3) -> Self::Output {
         Vec3::new(self.e[0] + rhs.e[0], self.e[1] + rhs.e[1], self.e[2] + rhs.e[2])
     }
 }
 
-impl ops::Sub<&Vec3> for &Vec3 {
+impl ops::Sub<Vec3> for Vec3 {
     type Output = Vec3;
 
-    fn sub(self, rhs: &Vec3) -> Self::Output {
+    fn sub(self, rhs: Vec3) -> Self::Output {
         Vec3::new(self.e[0] - rhs.e[0], self.e[1] - rhs.e[1], self.e[2] - rhs.e[2])
     }
 }
 
-impl ops::Mul<&Vec3> for &Vec3 {
+impl ops::Mul<Vec3> for Vec3 {
     type Output = Vec3;
 
-    fn mul(self, rhs: &Vec3) -> Self::Output {
+    fn mul(self, rhs: Vec3) -> Self::Output {
         Vec3::new(self.e[0] * rhs.e[0], self.e[1] * rhs.e[1], self.e[2] * rhs.e[2])
     }
 }
 
-impl ops::Mul<&Vec3> for Float {
+impl ops::Mul<Vec3> for Float {
     type Output = Vec3;
 
-    fn mul(self, rhs: &Vec3) -> Self::Output {
+    fn mul(self, rhs: Vec3) -> Self::Output {
         Vec3::new(self * rhs.e[0], self * rhs.e[1], self * rhs.e[2])
     }
 }
 
-impl ops::Mul<Float> for &Vec3 {
+impl ops::Mul<Float> for Vec3 {
     type Output = Vec3;
 
     fn mul(self, rhs: Float) -> Self::Output {
@@ -129,7 +129,7 @@ impl ops::Mul<Float> for &Vec3 {
     }
 }
 
-impl ops::Div<Float> for &Vec3 {
+impl ops::Div<Float> for Vec3 {
     type Output = Vec3;
 
     fn div(self, rhs: Float) -> Self::Output {
@@ -137,11 +137,11 @@ impl ops::Div<Float> for &Vec3 {
     }
 }
 
-pub fn dot(u: &Vec3, v: &Vec3) -> Float {
+pub fn dot(u: Vec3, v: Vec3) -> Float {
     u.e[0] * v.e[0] + u.e[1] * v.e[1] + u.e[2] * v.e[2]
 }
 
-pub fn cross(u: &Vec3, v: &Vec3) -> Vec3 {
+pub fn cross(u: Vec3, v: Vec3) -> Vec3 {
     Vec3::new(
         u.e[1] * v.e[2] - u.e[2] * v.e[1],
         u.e[2] * v.e[0] - u.e[0] * v.e[2],
@@ -149,6 +149,6 @@ pub fn cross(u: &Vec3, v: &Vec3) -> Vec3 {
     )
 }
 
-pub fn unit_vector(v: &Vec3) -> Vec3 {
+pub fn unit_vector(v: Vec3) -> Vec3 {
     v / v.length()
 }
