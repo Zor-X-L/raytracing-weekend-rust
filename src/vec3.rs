@@ -28,7 +28,7 @@ impl Vec3 {
     }
 }
 
-impl ops::Neg for Vec3 {
+impl ops::Neg for &Vec3 {
     type Output = Vec3;
 
     fn neg(self) -> Self::Output {
@@ -89,7 +89,7 @@ impl fmt::Display for Vec3 {
     }
 }
 
-impl ops::Add<&Vec3> for Vec3 {
+impl ops::Add<&Vec3> for &Vec3 {
     type Output = Vec3;
 
     fn add(self, rhs: &Vec3) -> Self::Output {
@@ -97,7 +97,7 @@ impl ops::Add<&Vec3> for Vec3 {
     }
 }
 
-impl ops::Sub<&Vec3> for Vec3 {
+impl ops::Sub<&Vec3> for &Vec3 {
     type Output = Vec3;
 
     fn sub(self, rhs: &Vec3) -> Self::Output {
@@ -105,7 +105,7 @@ impl ops::Sub<&Vec3> for Vec3 {
     }
 }
 
-impl ops::Mul<&Vec3> for Vec3 {
+impl ops::Mul<&Vec3> for &Vec3 {
     type Output = Vec3;
 
     fn mul(self, rhs: &Vec3) -> Self::Output {
@@ -121,19 +121,11 @@ impl ops::Mul<&Vec3> for f64 {
     }
 }
 
-impl ops::Mul<f64> for Vec3 {
+impl ops::Mul<f64> for &Vec3 {
     type Output = Vec3;
 
     fn mul(self, rhs: f64) -> Self::Output {
-        rhs * &self
-    }
-}
-
-impl ops::Div<f64> for Vec3 {
-    type Output = Vec3;
-
-    fn div(self, rhs: f64) -> Self::Output {
-        (1.0 / rhs) * &self
+        rhs * self
     }
 }
 

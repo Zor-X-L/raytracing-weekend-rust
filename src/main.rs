@@ -1,4 +1,4 @@
-use crate::vec3::{Color, Vec3, write_color};
+use crate::vec3::{Color, write_color};
 
 mod vec3;
 
