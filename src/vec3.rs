@@ -4,6 +4,7 @@ use std::fmt::Formatter;
 
 pub type Float = f64;
 
+#[derive(Copy, Clone)]
 pub struct Vec3 {
     pub e: [Float; 3],
 }

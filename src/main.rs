@@ -3,6 +3,7 @@ use crate::vec3::Float;
 
 mod vec3;
 mod color;
+mod ray;
 
 fn main() {
 
