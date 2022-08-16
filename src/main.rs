@@ -1,8 +1,10 @@
 use crate::color::{Color, write_color};
+use crate::float::Float;
 use crate::ray::Ray;
-use crate::vec3::{dot, Float, Point3, unit_vector, Vec3};
+use crate::vec3::{dot, Point3, unit_vector, Vec3};
 
 mod color;
+mod float;
 mod ray;
 mod vec3;
 

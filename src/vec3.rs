@@ -2,7 +2,7 @@ use std::fmt;
 use std::fmt::Formatter;
 use std::ops;
 
-pub type Float = f64;
+use crate::float::Float;
 
 #[derive(Copy, Clone)]
 pub struct Vec3 {
