@@ -3,7 +3,7 @@ use crate::hittable::{HitRecord, Hittable};
 use crate::ray::Ray;
 use crate::vec3::{dot, Point3};
 
-struct Sphere {
+pub struct Sphere {
     pub center: Point3,
     pub radius: Float,
 }
