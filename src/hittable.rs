@@ -1,6 +1,6 @@
 use crate::float::Float;
 use crate::ray::Ray;
-use crate::vec3::{Point3, Vec3, dot};
+use crate::vec3::{dot, Point3, Vec3};
 
 #[derive(Clone)]
 pub struct HitRecord {
