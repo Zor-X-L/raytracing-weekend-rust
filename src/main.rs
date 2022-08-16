@@ -6,6 +6,7 @@ use crate::vec3::{dot, Point3, unit_vector, Vec3};
 mod color;
 mod float;
 mod hittable;
+mod hittable_list;
 mod ray;
 mod sphere;
 mod vec3;
