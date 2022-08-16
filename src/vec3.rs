@@ -6,27 +6,29 @@ pub type Float = f64;
 
 #[derive(Copy, Clone)]
 pub struct Vec3 {
-    pub e: [Float; 3],
+    pub e0: Float,
+    pub e1: Float,
+    pub e2: Float,
 }
 
 impl Vec3 {
     pub fn zero() -> Vec3 {
-        Vec3 { e: [0.0, 0.0, 0.0] }
+        Vec3 { e0: 0.0, e1: 0.0, e2: 0.0 }
     }
     pub fn new(e0: Float, e1: Float, e2: Float) -> Vec3 {
-        Vec3 { e: [e0, e1, e2] }
+        Vec3 { e0, e1, e2 }
     }
 
-    pub fn x(&self) -> Float { self.e[0] }
-    pub fn y(&self) -> Float { self.e[1] }
-    pub fn z(&self) -> Float { self.e[2] }
+    pub fn x(&self) -> Float { self.e0 }
+    pub fn y(&self) -> Float { self.e1 }
+    pub fn z(&self) -> Float { self.e2 }
 
     pub fn length(&self) -> Float {
         self.length_squared().sqrt()
     }
 
     pub fn length_squared(&self) -> Float {
-        self.e[0] * self.e[0] + self.e[1] * self.e[1] + self.e[2] * self.e[2]
+        self.e0 * self.e0 + self.e1 * self.e1 + self.e2 * self.e2
     }
 }
 
@@ -34,7 +36,7 @@ impl ops::Neg for Vec3 {
     type Output = Vec3;
 
     fn neg(self) -> Self::Output {
-        Vec3::new(-self.e[0], -self.e[1], -self.e[2])
+        Vec3::new(-self.e0, -self.e1, -self.e2)
     }
 }
 
@@ -42,37 +44,47 @@ impl ops::Index<usize> for Vec3 {
     type Output = Float;
 
     fn index(&self, index: usize) -> &Self::Output {
-        &self.e[index]
+        match index {
+            0 => &self.e0,
+            1 => &self.e1,
+            2 => &self.e2,
+            _ => panic!()
+        }
     }
 }
 
 impl ops::IndexMut<usize> for Vec3 {
     fn index_mut(&mut self, index: usize) -> &mut Self::Output {
-        &mut self.e[index]
+        match index {
+            0 => &mut self.e0,
+            1 => &mut self.e1,
+            2 => &mut self.e2,
+            _ => panic!()
+        }
     }
 }
 
 impl ops::AddAssign<Vec3> for Vec3 {
     fn add_assign(&mut self, rhs: Vec3) {
-        self.e[0] += rhs.e[0];
-        self.e[1] += rhs.e[1];
-        self.e[2] += rhs.e[2];
+        self.e0 += rhs.e0;
+        self.e1 += rhs.e1;
+        self.e2 += rhs.e2;
     }
 }
 
 impl ops::MulAssign<Float> for Vec3 {
     fn mul_assign(&mut self, rhs: Float) {
-        self.e[0] *= rhs;
-        self.e[1] *= rhs;
-        self.e[2] *= rhs;
+        self.e0 *= rhs;
+        self.e1 *= rhs;
+        self.e2 *= rhs;
     }
 }
 
 impl ops::DivAssign<Float> for Vec3 {
     fn div_assign(&mut self, rhs: Float) {
-        self.e[0] /= rhs;
-        self.e[1] /= rhs;
-        self.e[2] /= rhs;
+        self.e0 /= rhs;
+        self.e1 /= rhs;
+        self.e2 /= rhs;
     }
 }
 
@@ -85,7 +97,7 @@ pub type Point3 = Vec3;
 
 impl fmt::Display for Vec3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        write!(f, "{} {} {}", self.e[0], self.e[1], self.e[2])
+        write!(f, "{} {} {}", self.e0, self.e1, self.e2)
     }
 }
 
@@ -93,7 +105,7 @@ impl ops::Add<Vec3> for Vec3 {
     type Output = Vec3;
 
     fn add(self, rhs: Vec3) -> Self::Output {
-        Vec3::new(self.e[0] + rhs.e[0], self.e[1] + rhs.e[1], self.e[2] + rhs.e[2])
+        Vec3::new(self.e0 + rhs.e0, self.e1 + rhs.e1, self.e2 + rhs.e2)
     }
 }
 
@@ -101,7 +113,7 @@ impl ops::Sub<Vec3> for Vec3 {
     type Output = Vec3;
 
     fn sub(self, rhs: Vec3) -> Self::Output {
-        Vec3::new(self.e[0] - rhs.e[0], self.e[1] - rhs.e[1], self.e[2] - rhs.e[2])
+        Vec3::new(self.e0 - rhs.e0, self.e1 - rhs.e1, self.e2 - rhs.e2)
     }
 }
 
@@ -109,7 +121,7 @@ impl ops::Mul<Vec3> for Vec3 {
     type Output = Vec3;
 
     fn mul(self, rhs: Vec3) -> Self::Output {
-        Vec3::new(self.e[0] * rhs.e[0], self.e[1] * rhs.e[1], self.e[2] * rhs.e[2])
+        Vec3::new(self.e0 * rhs.e0, self.e1 * rhs.e1, self.e2 * rhs.e2)
     }
 }
 
@@ -117,7 +129,7 @@ impl ops::Mul<Vec3> for Float {
     type Output = Vec3;
 
     fn mul(self, rhs: Vec3) -> Self::Output {
-        Vec3::new(self * rhs.e[0], self * rhs.e[1], self * rhs.e[2])
+        Vec3::new(self * rhs.e0, self * rhs.e1, self * rhs.e2)
     }
 }
 
@@ -138,14 +150,14 @@ impl ops::Div<Float> for Vec3 {
 }
 
 pub fn dot(u: Vec3, v: Vec3) -> Float {
-    u.e[0] * v.e[0] + u.e[1] * v.e[1] + u.e[2] * v.e[2]
+    u.e0 * v.e0 + u.e1 * v.e1 + u.e2 * v.e2
 }
 
 pub fn cross(u: Vec3, v: Vec3) -> Vec3 {
     Vec3::new(
-        u.e[1] * v.e[2] - u.e[2] * v.e[1],
-        u.e[2] * v.e[0] - u.e[0] * v.e[2],
-        u.e[0] * v.e[1] - u.e[1] * v.e[0],
+        u.e1 * v.e2 - u.e2 * v.e1,
+        u.e2 * v.e0 - u.e0 * v.e2,
+        u.e0 * v.e1 - u.e1 * v.e0,
     )
 }
 
