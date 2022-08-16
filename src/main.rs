@@ -5,7 +5,9 @@ use crate::vec3::{dot, Point3, unit_vector, Vec3};
 
 mod color;
 mod float;
+mod hittable;
 mod ray;
+mod sphere;
 mod vec3;
 
 fn hit_sphere(center: Point3, radius: Float, r: &Ray) -> Float {
