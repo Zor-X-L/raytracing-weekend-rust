@@ -82,9 +82,7 @@ impl ops::MulAssign<Float> for Vec3 {
 
 impl ops::DivAssign<Float> for Vec3 {
     fn div_assign(&mut self, rhs: Float) {
-        self.e0 /= rhs;
-        self.e1 /= rhs;
-        self.e2 /= rhs;
+        *self *= 1. / rhs;
     }
 }
 
