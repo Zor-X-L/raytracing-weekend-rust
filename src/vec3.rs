@@ -1,6 +1,6 @@
-use std::ops;
 use std::fmt;
 use std::fmt::Formatter;
+use std::ops;
 
 pub type Float = f64;
 

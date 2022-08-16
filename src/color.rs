@@ -1,5 +1,6 @@
 use std::io;
 use std::io::Write;
+
 use crate::vec3::Vec3;
 
 // RGB color

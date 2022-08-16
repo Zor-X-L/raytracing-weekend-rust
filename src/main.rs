@@ -1,6 +1,6 @@
 use crate::color::{Color, write_color};
 use crate::ray::Ray;
-use crate::vec3::{Float, Point3, unit_vector, Vec3, dot};
+use crate::vec3::{dot, Float, Point3, unit_vector, Vec3};
 
 mod color;
 mod ray;
@@ -11,7 +11,7 @@ fn hit_sphere(center: Point3, radius: Float, r: &Ray) -> bool {
     let a = dot(r.direction(), r.direction());
     let b = 2.0 * dot(oc, r.direction());
     let c = dot(oc, oc) - radius * radius;
-    let discriminant = b*b - 4.0*a*c;
+    let discriminant = b * b - 4.0 * a * c;
     discriminant > 0.0
 }
 
