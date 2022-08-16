@@ -6,7 +6,7 @@ mod color;
 mod ray;
 mod vec3;
 
-fn hit_sphere(center: Point3, radius: Float, r: Ray) -> bool {
+fn hit_sphere(center: Point3, radius: Float, r: &Ray) -> bool {
     let oc = r.origin() - center;
     let a = dot(r.direction(), r.direction());
     let b = 2.0 * dot(oc, r.direction());
@@ -16,7 +16,7 @@ fn hit_sphere(center: Point3, radius: Float, r: Ray) -> bool {
 }
 
 fn ray_color(r: Ray) -> Color {
-    if hit_sphere(Point3::new(0.0, 0.0, -1.0), 0.5, r) {
+    if hit_sphere(Point3::new(0.0, 0.0, -1.0), 0.5, &r) {
         return Color::new(1.0, 0.0, 0.0);
     }
     let unit_direction = unit_vector(r.direction());

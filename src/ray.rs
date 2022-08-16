@@ -1,10 +1,10 @@
 use crate::Float;
 use crate::vec3::{Point3, Vec3};
 
-#[derive(Copy, Clone)]
+#[derive(Clone)]
 pub struct Ray {
-    pub orig: Point3,
-    pub dir: Vec3,
+    orig: Point3,
+    dir: Vec3,
 }
 
 impl Ray {
