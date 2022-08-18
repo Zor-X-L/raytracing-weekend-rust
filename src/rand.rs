@@ -35,9 +35,7 @@ impl Rand for Xoshiro256PlusPlus {
     }
 
     fn rand(&mut self) -> u64 {
-        let s0 = Wrapping(self.s0);
-        let s3 = Wrapping(self.s3);
-        let result = (Wrapping(Xoshiro256PlusPlus::rtol((s0 + s3).0, 23)) + s0).0;
+        let result = Xoshiro256PlusPlus::rtol(self.s0.wrapping_add(self.s3), 23).wrapping_add(self.s0);
 
         let t = self.s1 << 17;
 
