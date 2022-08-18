@@ -39,6 +39,9 @@ impl Vec3 {
             return p;
         }
     }
+    pub fn random_unit_vector(rand: &mut impl Rand) -> Vec3 {
+        unit_vector(Vec3::random_in_unit_sphere(rand))
+    }
 
     pub fn x(&self) -> Float { self.e0 }
     pub fn y(&self) -> Float { self.e1 }

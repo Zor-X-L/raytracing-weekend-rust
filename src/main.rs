@@ -29,7 +29,7 @@ fn ray_color(r: &Ray, world: &impl Hittable, depth: i32, rand: &mut impl Rand) -
     }
 
     if world.hit(r, 0.001, INFINITY, &mut rec) {
-        let target = rec.p + rec.normal + Vec3::random_in_unit_sphere(rand);
+        let target = rec.p + rec.normal + Vec3::random_unit_vector(rand);
         return 0.5 * ray_color(&Ray::new(rec.p, target - rec.p), world, depth - 1, rand);
     }
 
