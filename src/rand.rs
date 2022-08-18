@@ -1,3 +1,5 @@
+use std::num::Wrapping;
+
 pub trait Rand {
     fn rand_max(&self) -> u64;
     fn rand(&mut self) -> u64;
@@ -33,7 +35,9 @@ impl Rand for Xoshiro256PlusPlus {
     }
 
     fn rand(&mut self) -> u64 {
-        let result = Xoshiro256PlusPlus::rtol(self.s0 + self.s3, 23) + self.s0;
+        let s0 = Wrapping(self.s0);
+        let s3 = Wrapping(self.s3);
+        let result = (Wrapping(Xoshiro256PlusPlus::rtol((s0 + s3).0, 23)) + s0).0;
 
         let t = self.s1 << 17;
 

@@ -19,3 +19,13 @@ pub fn random_double01(rand: &mut impl Rand) -> Float {
 pub fn random_double(rand: &mut impl Rand, min: Float, max: Float) -> Float {
     min + (max - min) * random_double01(rand)
 }
+
+pub fn clamp(x: Float, min: Float, max: Float) -> Float {
+    if x < min {
+        min
+    } else if x > max {
+        max
+    } else {
+        x
+    }
+}
