@@ -3,6 +3,8 @@ use std::fmt::Formatter;
 use std::ops;
 
 use crate::float::Float;
+use crate::rand::Rand;
+use crate::rtweekend::{random_double, random_double01};
 
 #[derive(Copy, Clone)]
 pub struct Vec3 {
@@ -17,6 +19,25 @@ impl Vec3 {
     }
     pub fn new(e0: Float, e1: Float, e2: Float) -> Vec3 {
         Vec3 { e0, e1, e2 }
+    }
+    pub fn random01(rand: &mut impl Rand) -> Vec3 {
+        let e0 = random_double01(rand);
+        let e1 = random_double01(rand);
+        let e2 = random_double01(rand);
+        Vec3 { e0, e1, e2 }
+    }
+    pub fn random(rand: &mut impl Rand, min: Float, max: Float) -> Vec3 {
+        let e0 = random_double(rand, min, max);
+        let e1 = random_double(rand, min, max);
+        let e2 = random_double(rand, min, max);
+        Vec3 { e0, e1, e2 }
+    }
+    pub fn random_in_unit_sphere(rand: &mut impl Rand) -> Vec3 {
+        loop {
+            let p = Vec3::random(rand, -1.0, 1.0);
+            if p.length_squared() >= 1.0 { continue; }
+            return p;
+        }
     }
 
     pub fn x(&self) -> Float { self.e0 }

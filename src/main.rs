@@ -3,11 +3,11 @@ use crate::color::{Color, write_color};
 use crate::float::Float;
 use crate::hittable::{HitRecord, Hittable};
 use crate::hittable_list::HittableList;
-use crate::rand::Xoshiro256PlusPlus;
+use crate::rand::{Rand, Xoshiro256PlusPlus};
 use crate::ray::Ray;
 use crate::rtweekend::{INFINITY, random_double01};
 use crate::sphere::Sphere;
-use crate::vec3::{Point3, unit_vector};
+use crate::vec3::{Point3, unit_vector, Vec3};
 
 mod camera;
 mod color;
@@ -20,11 +20,19 @@ mod rtweekend;
 mod sphere;
 mod vec3;
 
-fn ray_color(r: &Ray, world: &impl Hittable) -> Color {
+fn ray_color(r: &Ray, world: &impl Hittable, depth: i32, rand: &mut impl Rand) -> Color {
     let mut rec = HitRecord::empty();
-    if world.hit(r, 0.0, INFINITY, &mut rec) {
-        return 0.5 * (rec.normal + Color::new(1.0, 1.0, 1.0));
+
+    // If we've exceeded the ray bounce limit, no more light is gathered.
+    if depth <= 0 {
+        return Color::zero();
     }
+
+    if world.hit(r, 0.0, INFINITY, &mut rec) {
+        let target = rec.p + rec.normal + Vec3::random_in_unit_sphere(rand);
+        return 0.5 * ray_color(&Ray::new(rec.p, target - rec.p), world, depth - 1, rand);
+    }
+
     let unit_direction = unit_vector(r.direction());
     let t = 0.5 * (unit_direction.y() + 1.0);
     (1.0 - t) * Color::new(1.0, 1.0, 1.0) + t * Color::new(0.5, 0.7, 1.0)
@@ -39,6 +47,7 @@ fn main() {
     let image_width = 400;
     let image_height = (image_width as Float / aspect_ratio) as i32;
     let samples_per_pixel = 100;
+    let max_depth = 50;
 
     // World
 
@@ -61,7 +70,7 @@ fn main() {
                 let u = (i as Float + random_double01(&mut rand)) / (image_width - 1) as Float;
                 let v = (j as Float + random_double01(&mut rand)) / (image_height - 1) as Float;
                 let r = cam.get_ray(u, v);
-                pixel_color += ray_color(&r, &world);
+                pixel_color += ray_color(&r, &world, max_depth, &mut rand);
             }
             write_color(&mut std::io::stdout(), pixel_color, samples_per_pixel)
                 .expect("Error");
