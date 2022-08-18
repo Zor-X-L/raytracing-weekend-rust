@@ -11,6 +11,7 @@ mod color;
 mod float;
 mod hittable;
 mod hittable_list;
+mod rand;
 mod ray;
 mod rtweekend;
 mod sphere;
