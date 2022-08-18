@@ -3,6 +3,7 @@ use crate::float::Float;
 use crate::hittable::{HitRecord, Hittable};
 use crate::hittable_list::HittableList;
 use crate::ray::Ray;
+use crate::rtweekend::INFINITY;
 use crate::sphere::Sphere;
 use crate::vec3::{dot, Point3, unit_vector, Vec3};
 
@@ -11,12 +12,13 @@ mod float;
 mod hittable;
 mod hittable_list;
 mod ray;
+mod rtweekend;
 mod sphere;
 mod vec3;
 
 fn ray_color(r: &Ray, world: &impl Hittable) -> Color {
     let mut rec = HitRecord::empty();
-    if world.hit(r, 0.0, Float::INFINITY, &mut rec) {
+    if world.hit(r, 0.0, INFINITY, &mut rec) {
         return 0.5 * (rec.normal + Color::new(1.0, 1.0, 1.0));
     }
     let unit_direction = unit_vector(r.direction());
