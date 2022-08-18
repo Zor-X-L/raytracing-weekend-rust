@@ -1,5 +1,5 @@
 pub trait Rand {
-    fn rand_max() -> u64;
+    fn rand_max(&self) -> u64;
     fn rand(&mut self) -> u64;
 }
 
@@ -28,7 +28,7 @@ impl Xoshiro256PlusPlus {
 }
 
 impl Rand for Xoshiro256PlusPlus {
-    fn rand_max() -> u64 {
+    fn rand_max(&self) -> u64 {
         u64::MAX
     }
 
