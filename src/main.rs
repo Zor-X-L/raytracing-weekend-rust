@@ -33,8 +33,12 @@ fn ray_color(r: &Ray, world: &impl Hittable, depth: i32, rand: &mut impl Rand) -
     }
 
     if world.hit(r, 0.001, INFINITY, &mut rec) {
-        let target = rec.p + rec.normal + Vec3::random_unit_vector(rand);
-        return 0.5 * ray_color(&Ray::new(rec.p, target - rec.p), world, depth - 1, rand);
+        let mut scattered = Ray::zero();
+        let mut attenuation = Color::zero();
+        if rec.mat_ptr.as_ref().unwrap().scatter(r, &rec, &mut attenuation, &mut scattered, rand) {
+            return attenuation * ray_color(&scattered, world, depth - 1, rand);
+        }
+        return Color::zero();
     }
 
     let unit_direction = unit_vector(r.direction());
@@ -56,15 +60,19 @@ fn main() {
     // World
 
     let mut world = HittableList::empty();
-    world.add(Box::new(Sphere::new(
-        Point3::new(0.0, 0.0, -1.0),
-        0.5,
-        Rc::new(Lambertian::new(Color::new(0.5, 0.5, 0.5))),
-    )));
+
+    let material_ground = Rc::new(Lambertian::new(Color::new(0.8, 0.8, 0.0)));
+    let material_center = Rc::new(Lambertian::new(Color::new(0.7, 0.3, 0.3)));
+
     world.add(Box::new(Sphere::new(
         Point3::new(0.0, -100.5, -1.0),
         100.0,
-        Rc::new(Lambertian::new(Color::new(0.5, 0.5, 0.5))),
+        material_ground,
+    )));
+    world.add(Box::new(Sphere::new(
+        Point3::new(0.0, 0.0, -1.0),
+        0.5,
+        material_center,
     )));
 
     // Camera
