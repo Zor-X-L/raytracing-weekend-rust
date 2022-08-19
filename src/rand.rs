@@ -1,5 +1,3 @@
-use std::num::Wrapping;
-
 pub trait Rand {
     fn rand_max(&self) -> u64;
     fn rand(&mut self) -> u64;

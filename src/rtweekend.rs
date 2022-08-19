@@ -12,11 +12,11 @@ pub fn degrees_to_radians(degrees: Float) -> Float {
     degrees * PI / 180.0
 }
 
-pub fn random_double01(rand: &mut impl Rand) -> Float {
+pub fn random_double01(rand: &mut dyn Rand) -> Float {
     rand.rand() as Float / (rand.rand_max() as Float + 1.0)
 }
 
-pub fn random_double(rand: &mut impl Rand, min: Float, max: Float) -> Float {
+pub fn random_double(rand: &mut dyn Rand, min: Float, max: Float) -> Float {
     min + (max - min) * random_double01(rand)
 }
 

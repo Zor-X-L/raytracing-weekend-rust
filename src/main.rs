@@ -1,8 +1,11 @@
+use std::rc::Rc;
+
 use crate::camera::Camera;
 use crate::color::{Color, write_color};
 use crate::float::Float;
 use crate::hittable::{HitRecord, Hittable};
 use crate::hittable_list::HittableList;
+use crate::material::Lambertian;
 use crate::rand::{Rand, Xoshiro256PlusPlus};
 use crate::ray::Ray;
 use crate::rtweekend::{INFINITY, random_double01};
@@ -14,6 +17,7 @@ mod color;
 mod float;
 mod hittable;
 mod hittable_list;
+mod material;
 mod rand;
 mod ray;
 mod rtweekend;
@@ -52,8 +56,16 @@ fn main() {
     // World
 
     let mut world = HittableList::empty();
-    world.add(Box::new(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5)));
-    world.add(Box::new(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0)));
+    world.add(Box::new(Sphere::new(
+        Point3::new(0.0, 0.0, -1.0),
+        0.5,
+        Rc::new(Lambertian::new(Color::new(0.5, 0.5, 0.5))),
+    )));
+    world.add(Box::new(Sphere::new(
+        Point3::new(0.0, -100.5, -1.0),
+        100.0,
+        Rc::new(Lambertian::new(Color::new(0.5, 0.5, 0.5))),
+    )));
 
     // Camera
     let cam = Camera::default();
